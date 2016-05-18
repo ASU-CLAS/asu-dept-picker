@@ -4,16 +4,6 @@
 var DeptListItem = require('./dept-list-item');
 
 module.exports = React.createClass({
-  getInitialState: function() {
-    return {
-      items: this.props.items || []
-    }
-  },
-
-  componentWillReceiveProps: function(nextProps) {
-    this.setState({ items: nextProps.items });
-  },
-
   render: function() {
     return <ul className="asu-dept-list">
       {this.renderList()}
@@ -21,8 +11,8 @@ module.exports = React.createClass({
   },
 
   renderList: function() {
-    return this.state.items.map(function(item) {
-      return <DeptListItem key={item.id} id={item.id} title={item.title} />
-    });
+    return this.props.items.map(function(item) {
+      return <DeptListItem onRemoveDept={this.props.onRemoveDept} key={item.id} id={item.id} title={item.title} />
+    }.bind(this));
   },
 });

@@ -1,25 +1,9 @@
 /**
  * ASU Department List Item Component
  */
-var $ = jQuery;
-
-var Reflux = require('reflux');
-var Actions = require('../actions/dept-list-item-actions');
-
 module.exports = React.createClass({
-
-  componentDidMount: function() {
-    console.log(this);
-  },
-
-  getInitialState: function() {
-    return {
-      id: this.props.id
-    }
-  },
-
   handleItemRemove: function(event) {
-    Actions.removeItem(this);
+    this.props.onRemoveDept(this);
   },
 
   render: function() {
