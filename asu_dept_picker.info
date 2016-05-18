@@ -4,3 +4,6 @@ core = 7.x
 package = ASU
 version = 7.x-1.0-beta1
 project = asu_dept_picker
+
+dependencies[] = libraries:libraries
+dependencies[] = react:react
