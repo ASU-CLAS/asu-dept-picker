@@ -5,14 +5,31 @@ var $ = jQuery;
 var Reflux = require('reflux');
 var DeptListStore = require('../stores/dept-list-store');
 
+
 var DeptTree = require('./dept-tree.jsx');
 var DeptList = require('./dept-list.jsx');
 
 
 module.exports = React.createClass({
   mixins: [
-    Reflux.listenTo(TopicStore, 'onChange')
+    Reflux.listenTo(DeptListStore, 'onDeptListItemChange')
   ],
+
+  onDeptListItemChange: function(event, item) {
+    switch (event) {
+      case 'removeItem': this.handleRemoveItem(item);
+    }
+  },
+
+  getInitialState: function() {
+    return {
+      config: {items: [], options: {}},
+      selectedDepartments: [],
+      currentNode: null,
+      includeSubdepts: false,
+      instance_id: Math.random()
+    };
+  },
 
   componentWillMount: function() {
     // Escape support
@@ -28,16 +45,7 @@ module.exports = React.createClass({
   },
 
   componentDidMount: function() {
-    $(window).on('dept-list-item.remove', this.handleRemoveItem);
-  },
-
-  getInitialState: function() {
-    return {
-      config: {items: [], options: {}},
-      selectedDepartments: [],
-      currentNode: null,
-      includeSubdepts: false
-    };
+    console.log(this);
   },
 
   render: function() {
@@ -90,7 +98,7 @@ module.exports = React.createClass({
   },
 
   renderDepartmentList: function() {
-    return <DeptList items={this.state.selectedDepartments} />
+    return <DeptList ref="deptList" items={this.state.selectedDepartments} />
   },
 
   renderBrowseButton: function() {
@@ -103,8 +111,9 @@ module.exports = React.createClass({
     </div>
   },
 
-  handleRemoveItem: function(e, item) {
-    console.log('Removing item...', item);
+  handleRemoveItem: function(item) {
+    // filter out the item
+    console.log('removing item! ' + this.state.instance_id);
   },
 
   handleSubdeptClick: function() {

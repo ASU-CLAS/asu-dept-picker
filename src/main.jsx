@@ -17,7 +17,6 @@ var AsuDeptPicker = require('./components/asu-dept-picker.jsx');
         var delta = $(this).attr('data-delta');
         var config = settings.asu_dept_picker[delta];
 
-        // add element to dom
         var asu_dept_picker = React.createElement(AsuDeptPicker, config);
         ReactDOM.render(asu_dept_picker, this);
       });

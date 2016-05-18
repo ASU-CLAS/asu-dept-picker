@@ -2,8 +2,6 @@
  * ASU Department Picker Component
  */
 var DeptListItem = require('./dept-list-item');
-var DeptStore = require('../stores/dept-list.jsx');
-var Actions = require('../actions/dept-list.jsx');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -24,7 +22,7 @@ module.exports = React.createClass({
 
   renderList: function() {
     return this.state.items.map(function(item) {
-      return <DeptListItem key={item.id} title={item.title} />
+      return <DeptListItem key={item.id} id={item.id} title={item.title} />
     });
   },
 });
