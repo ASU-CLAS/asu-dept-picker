@@ -12,7 +12,13 @@ module.exports = React.createClass({
 
   renderList: function() {
     return this.props.items.map(function(item) {
-      return <DeptListItem onRemoveDept={this.props.onRemoveDept} key={item.id} id={item.id} title={item.title} />
+      return <DeptListItem
+        key={item.id}
+        onRemoveDept={this.props.onRemoveDept}
+        subdepts={item.subdepts}
+        id={item.id}
+        title={item.title}
+      />
     }.bind(this));
   },
 });

@@ -34,7 +34,7 @@ module.exports = React.createClass({
       ref="modal"
       title="Select Department"
       content={deptTree}
-      onSuccess={this.handleModalSubmit}
+      onSuccess={this.handleModalSuccess}
       onSubdeptClick={this.handleSubdeptClick}
     />;
   },
@@ -57,18 +57,29 @@ module.exports = React.createClass({
     </div>
   },
 
-  handleRemoveDept: function(item) {
-    console.log('removing item... from state...');
-    console.log(item);
+  handleRemoveDept: function(doomed) {
+    var dept_id = doomed.props.id;
+    var config = this.state.config;
+
+    config.items = config.items.filter(function(item){
+      return (dept_id != item.dept_id);
+    });
+
+    delete config.options[dept_id];
+
+    this.setState({ config: config });
+
+    this.setSelectedDepartments();
   },
 
   handleSubdeptClick: function() {
     this.setState({ includeSubdepts: !this.state.includeSubdepts });
   },
 
-  handleModalSubmit: function() {
+  handleModalSuccess: function() {
     // setup config
     this.setDeptConfig(this.refs.deptTree.state.currentNode);
+
     // update selected departments list
     this.setSelectedDepartments();
   },
@@ -89,7 +100,8 @@ module.exports = React.createClass({
     config.items.map(function(item, index){
       depts.push({
         id: item.dept_id,
-        title: deptTree.getDeptPath(item.tid)
+        title: deptTree.getDeptPath(item.tid),
+        subdepts: config.options[item.dept_id].subdepts
       });
     });
 

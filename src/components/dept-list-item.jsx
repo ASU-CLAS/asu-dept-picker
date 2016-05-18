@@ -9,9 +9,18 @@ module.exports = React.createClass({
   render: function() {
     return <li ref="dept">
       {this.props.title}
+      {this.renderSubdeptsLabel()}
       <span className="tag remove">
-        <span onClick={this.handleItemRemove} className="fa fa-close"></span>
+        <span
+          onClick={this.handleItemRemove}
+          className="fa fa-close" />
       </span>
     </li>
+  },
+
+  renderSubdeptsLabel: function() {
+    if (this.props.subdepts) {
+      return <span className="tag subdepts">+subdepts</span>
+    }
   }
 });
