@@ -7,11 +7,10 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       treeData: JSON.parse(this.props.treeData),
-      currentNode: {
-        dept_id: 1234,
-      }
+      currentNode: null
     }
   },
+
   componentDidMount: function() {
     // initialize tree plugin...
     var el = this.refs.treeContainer;
@@ -21,7 +20,8 @@ module.exports = React.createClass({
     var defaults = {
       openAt: 1,
       showOnly: null,
-      autoOpen: 0
+      autoOpen: 0,
+      selectable: true
     };
     var options = $.extend(defaults, this.props);
 
@@ -32,7 +32,7 @@ module.exports = React.createClass({
 
       // First level open
       autoOpen: options.autoOpen,
-      selectable: true,
+      selectable: options.selectable,
 
       // Assign dept_id attribute to each tree <li>
       onCreateLi: function (node, $li) {
@@ -55,18 +55,24 @@ module.exports = React.createClass({
       }
     });
 
-    $(el).bind('tree.click', this.onTreeClick);
+    $(el).bind('tree.select', this.onTreeSelect);
   },
+
   render: function() {
     return <div className="asu-dept-tree">
       <div className="tree-container" ref="treeContainer"></div>
     </div>
   },
-  onTreeClick: function(event) {
-    event.node.tree_nids = this.getTreeIds(event.node);
+
+  onTreeSelect: function(event) {
+    if (event.node) {
+      event.node.tree_nids = this.getTreeIds(event.node);
+    }
+
     this.setState({ currentNode: event.node });
-    this.props.onTreeClick(event);
+    this.props.onTreeSelect(event);
   },
+
   getDeptPath: function(dept_tid, path, reverse) {
     switch (arguments.length) {
       case 1: path = [];
@@ -98,6 +104,7 @@ module.exports = React.createClass({
 
     return path;
   },
+
   getTreeIds: function(tree, tree_ids) {
     if (arguments.length == 1) {
       tree_ids = [];
@@ -111,6 +118,7 @@ module.exports = React.createClass({
 
     return tree_ids;
   },
+
   findRootDept: function(dept_id, id_type, data) {
     var dept = null;
 

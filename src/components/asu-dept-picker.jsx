@@ -38,8 +38,7 @@ module.exports = React.createClass({
     var deptTree = <DeptTree 
       ref="deptTree"
       treeData={this.props.tree_json_data}
-
-      onTreeClick={this.handleDeptTreeClick}
+      onTreeSelect={this.handleDeptTreeSelect}
     />
 
     return <Modal
@@ -88,18 +87,20 @@ module.exports = React.createClass({
   },
 
   handleModalSuccess: function() {
-    // setup config
-    this.setDeptConfig(this.refs.deptTree.state.currentNode);
+    if (this.state.currentNode) {
+      // setup config
+      this.setDeptConfig(this.state.currentNode);
 
-    // update selected departments list
-    this.setSelectedDepartments();
+      // update selected departments list
+      this.setSelectedDepartments();
+    }
   },
 
   handleBrowseClick: function(event) {
     this.refs.modal.show();
   },
 
-  handleDeptTreeClick: function(data) {
+  handleDeptTreeSelect: function(data) {
     this.setState({ currentNode: data.node });
   },
 
