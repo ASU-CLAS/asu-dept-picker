@@ -1,6 +1,5 @@
 <?php
 
-
 function _asu_dept_picker_elements() {
   return array(
     'asu_dept_picker' => array(
@@ -22,7 +21,7 @@ function _asu_dept_picker_element_process($element, &$form_state, $complete_form
   // $form_state['values']['<element_name>']['prefix'],
   // etc. This technique is preferred when an element has member form
   // elements.
-  $element['#tree'] = TRUE;
+  // $element['#tree'] = FALSE;
 
   // dpm($element);
 
@@ -55,24 +54,11 @@ function _asu_dept_picker_element_process($element, &$form_state, $complete_form
 
 
 function _asu_dept_picker_element_validate($element, &$form_state) {
-  if (isset($element['#value']['areacode'])) {
-    if (0 == preg_match('/^\d{3}$/', $element['#value']['areacode'])) {
-      form_error($element['areacode'], t('The area code is invalid.'));
-    }
+  
+  $data = json_decode($element['#value']);
+  if (json_last_error() != JSON_ERROR_NONE) {
+    form_error($element, t('The department configuration is malformed.'));
   }
-  if (isset($element['#value']['prefix'])) {
-    if (0 == preg_match('/^\d{3}$/', $element['#value']['prefix'])) {
-      form_error($element['prefix'], t('The prefix is invalid.'));
-    }
-  }
-  if (isset($element['#value']['extension'])) {
-    if (0 == preg_match('/^\d{4}$/', $element['#value']['extension'])) {
-      form_error($element['extension'], t('The extension is invalid.'));
-    }
-  }
+
   return $element;
 }
-
-
-
-

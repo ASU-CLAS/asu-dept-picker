@@ -8,6 +8,10 @@ var Modal = require('./modal');
 
 module.exports = React.createClass({
 
+  componentDidMount: function() {
+    this.setSelectedDepartments();
+  },
+
   getInitialState: function() {
     var default_config = {
       items: this.props.items || [],

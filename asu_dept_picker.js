@@ -9,11 +9,11 @@
       $('.asu-dept-picker:not([data-reactid])', context).each(function() {
         var delta = $(this).attr('data-delta');
         var config = settings.asu_dept_picker[delta];
+        var input = $(this).siblings('input[data-delta="'+delta+'"]');
 
         config.onChange = function(data) {
-          $(this).siblings('input[data-delta="'+delta+'"]').val(JSON.stringify(data));
-          console.log(JSON.stringify(data));
-        }.bind(this);
+          input.val(JSON.stringify(data));
+        };
 
         var asu_dept_picker = React.createElement(AsuDeptPicker, config);
         ReactDOM.render(asu_dept_picker, this);
