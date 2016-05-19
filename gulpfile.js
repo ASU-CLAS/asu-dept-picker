@@ -47,7 +47,7 @@ function bundle() {
     .external('react-dom')
     .bundle()
     .on('error', notify)
-    .pipe(source('asu_dept_picker.js'))
+    .pipe(source('asu_dept_picker.react.js'))
     .pipe(gulp.dest('./'))
 }
 bundler.on('update', bundle);

@@ -39,6 +39,7 @@ function theme_asu_dept_picker(&$vars) {
   _asu_dept_picker_load_libraries();
 
   // Load javascript and css
+  drupal_add_js(drupal_get_path('module', 'asu_dept_picker') . '/asu_dept_picker.react.js');
   drupal_add_js(drupal_get_path('module', 'asu_dept_picker') . '/asu_dept_picker.js');
   drupal_add_css(drupal_get_path('module', 'asu_dept_picker') . '/asu_dept_picker.css');
 
@@ -66,8 +67,16 @@ function theme_asu_dept_picker(&$vars) {
   // add settings to Drupal object
   drupal_add_js(array('asu_dept_picker' => $settings), 'setting');
 
+  $element['#attributes']['data-delta'] = $index;
+
+  $input_element = theme('hidden', $element);
+
   // return the markup we will use to render our element in our js file
-  return '<div class="asu-dept-picker" data-delta="'.$index.'"></div>';
+  return '<div class="asu-dept-picker-container">
+      <div class="asu-dept-picker" data-delta="'.$index.'"></div>
+      ' . $input_element . '
+    </div>
+  ';
 }
 
 

@@ -1,6 +1,4 @@
 .widget-asu-dept-picker {
-
-
   // modal dialog
   .asu-dept-picker-modal {
     position: absolute;
@@ -31,20 +29,6 @@
       background: #ccc;
       padding: 0px 10px;
       border-radius: 20px;
-    }
-
-    .trimmed li.jqtree_common {
-      display: none;
-
-      &.visible {
-        display: block;
-      }
-    }
-
-    .tree-wrapper {
-      height: 400px;
-      overflow: scroll;
-      box-sizing: border-box;
     }
 
     .actions {
@@ -142,59 +126,25 @@
       }
     }
   }
-
-  #asu_directory_hrc_buttons i {
-    /*display: block;*/
-    color: darkgray;
-    /*font-size: .5em;*/
-  }
-
-  .asu_directory_dept_button:hover {
-    cursor: pointer;
-    color: black;
-  }
-
-  .asu_directory_dept_button a:hover {
-    text-decoration: none;
-  }
-
-  .asu_directory_dept_button a {
-    color: #960331;
-  }
-
-  .asu_directory_button_row {
-    background-color: #eee;
-    border-bottom: solid #ddd 2px;
-    color: #960331;
-    padding: .3em;
-  }
-
-  .asu_directory_dept_button {
-    margin-right: .2em;
-    border-radius: 5px;
-    border: solid darkgray 1px;
-    padding: 0 .2em 0 .2em;
-  }
-
-  /********
-  Isearch Compatibility
-  ******/
-
-  #asu-dept-mgr-hierarchy .asu-directory-tree-hierarchy {
-    border: none;
-  }
-
-  #asu-isearch-dept-picker-trigger {
-    margin: 5px 0;
-  }
 }
 
 .asu-dept-tree {
+  .trimmed li.jqtree_common {
+    display: none;
+
+    &.visible {
+      display: block;
+    }
+  }
+
+  .tree-container {
+    height: 400px;
+    overflow: scroll;
+    box-sizing: border-box;
+  }
+  
   ul.jqtree-tree {
     .jqtree-title {
-      // body .jqtree-tree  {
-      //   margin-left: 7px;
-      // }
       margin-left: 7px;
     }
     .jqtree-element {

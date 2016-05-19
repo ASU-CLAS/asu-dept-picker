@@ -163,3 +163,4 @@ function asu_dept_picker_element_info() {
   require_once('inc/asu_dept_picker.elements.inc');
   return _asu_dept_picker_elements();
 }
+

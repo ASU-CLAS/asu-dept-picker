@@ -6,7 +6,7 @@ var $ = jQuery;
 module.exports = React.createClass({
   getInitialState: function() {
     return {
-      treeData: JSON.parse(this.props.tree_json_data),
+      treeData: JSON.parse(this.props.treeData),
       currentNode: {
         dept_id: 1234,
       }
@@ -14,7 +14,7 @@ module.exports = React.createClass({
   },
   componentDidMount: function() {
     // initialize tree plugin...
-    var el = this.refs.treeWidget;
+    var el = this.refs.treeContainer;
     var tree_data = this.state.treeData;
     var topLevel = 10;
 
@@ -23,7 +23,7 @@ module.exports = React.createClass({
       showOnly: null,
       autoOpen: 0
     };
-    options = $.extend(defaults, this.props);
+    var options = $.extend(defaults, this.props);
 
     $(el).tree({
       data: tree_data,
@@ -59,7 +59,7 @@ module.exports = React.createClass({
   },
   render: function() {
     return <div className="asu-dept-tree">
-      <div className="tree-wrapper" ref="treeWidget">Tree widget</div>
+      <div className="tree-container" ref="treeContainer"></div>
     </div>
   },
   onTreeClick: function(event) {

@@ -7,9 +7,15 @@ var Modal = require('./modal');
 
 
 module.exports = React.createClass({
+
   getInitialState: function() {
+    var default_config = {
+      items: this.props.items || [],
+      options: this.props.options || {}
+    }
+
     return {
-      config: {items: [], options: {}},
+      config: default_config,
       selectedDepartments: [],
       currentNode: null,
       includeSubdepts: false
@@ -26,7 +32,9 @@ module.exports = React.createClass({
 
   renderModal: function() {
     var deptTree = <DeptTree 
-      ref="deptTree" {...this.props}
+      ref="deptTree"
+      treeData={this.props.tree_json_data}
+
       onTreeClick={this.handleDeptTreeClick}
     />
 
@@ -68,7 +76,6 @@ module.exports = React.createClass({
     delete config.options[dept_id];
 
     this.setState({ config: config });
-
     this.setSelectedDepartments();
   },
 
@@ -106,6 +113,7 @@ module.exports = React.createClass({
     });
 
     this.setState({ selectedDepartments: depts });
+    this.triggerChange();
   },
 
   setDeptConfig: function(data) {
@@ -134,5 +142,11 @@ module.exports = React.createClass({
     }
 
     this.setState({ config: config });
+  },
+
+  triggerChange: function() {
+    if (this.props.onChange) {
+      this.props.onChange(this.state.config);
+    }
   }
 });
