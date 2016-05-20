@@ -11,6 +11,11 @@ module.exports = React.createClass({
   },
 
   renderList: function() {
+
+    if (this.props.items.length == 0) {
+      return <li><span className="list-no-items">Click browse to add department(s)</span></li>;
+    }
+
     return this.props.items.map(function(item) {
       return <DeptListItem
         key={item.id}

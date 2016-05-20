@@ -1,3 +1,12 @@
+.form-item.form-type-asu-dept-picker {
+  label {
+    margin-bottom: 15px;
+  }
+  .description {
+    margin: 15px 0;
+  }
+}
+
 .widget-asu-dept-picker {
   // modal dialog
   .asu-dept-picker-modal {
@@ -100,6 +109,10 @@
         font-size: 1em;
         font-style: italic;
         margin: 10px 0;
+      }
+
+      span.list-no-items {
+        font-style: italic;
       }
 
       span.fragment {

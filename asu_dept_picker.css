@@ -1,4 +1,10 @@
 @charset "UTF-8";
+.form-item.form-type-asu-dept-picker label {
+  margin-bottom: 15px; }
+
+.form-item.form-type-asu-dept-picker .description {
+  margin: 15px 0; }
+
 .widget-asu-dept-picker .asu-dept-picker-modal {
   position: absolute;
   top: 0;
@@ -73,6 +79,8 @@
       font-size: 1em;
       font-style: italic;
       margin: 10px 0; }
+    .widget-asu-dept-picker .asu-dept-list li span.list-no-items {
+      font-style: italic; }
     .widget-asu-dept-picker .asu-dept-list li span.fragment:before {
       content: " » "; }
     .widget-asu-dept-picker .asu-dept-list li span.fragment.first:before {
