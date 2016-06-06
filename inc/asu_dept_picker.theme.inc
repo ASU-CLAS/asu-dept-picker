@@ -61,6 +61,16 @@ function theme_asu_dept_picker(&$vars) {
     $element['#asu_dept_tree']['tree_json_data'] = asu_dept_picker_get_tree();
   }
 
+  // detect value
+  $value = !empty($element['#default_value']) ? $element['#default_value'] : '';
+  $value = !empty($element['#value']) ? $element['#value'] : $value;
+
+  $data = json_decode($value);
+  if (json_last_error() == JSON_ERROR_NONE) {
+    $element['#asu_dept_tree']['items']   = isset($data->items) ? $data->items : array();
+    $element['#asu_dept_tree']['options'] = isset($data->options) ? $data->options : new stdClass();
+  }
+
   // store the instance settings for use later
   $settings[$index] = $element['#asu_dept_tree'];
 
@@ -69,12 +79,10 @@ function theme_asu_dept_picker(&$vars) {
 
   $element['#attributes']['data-delta'] = $index;
 
-  $input_element = theme('hidden', $element);
-
   // return the markup we will use to render our element in our js file
   return '<div class="asu-dept-picker-container">
       <div class="asu-dept-picker" data-delta="'.$index.'"></div>
-      ' . $input_element . '
+      ' . theme('hidden', $element) . '
     </div>
   ';
 }
@@ -96,29 +104,17 @@ function theme_asu_dept_tree(&$vars) {
     'top_level_nid' => ASU_DEPT_PICKER_TOP_LEVEL_DEPT_NID
   );
 
-  // if (isset($vars['items'][0]['directory_items'])) {
-  //   $nids = $vars['items'][0]['directory_items'];
-  // }
-  // else {
-  //   $nids = array(ASU_DEPT_PICKER_TOP_LEVEL_DEPT_NID);
-  // }
-
   $nids = array(ASU_DEPT_PICKER_TOP_LEVEL_DEPT_NID);
 
   $settings = array(
     'tree_data' => $tree_json_data,
     'top_level_ids' => $top_level_ids,
     'dept_nids'     => $nids,
-    // 'standalone'    => $standalone,
   );
-
-  $settings['config_target'] = $config_target;
-
-  $delta = md5(serialize($settings));
 
   drupal_add_js(array('asu_dept_picker_dept_tree' => $settings), 'setting');
 
-  return '<div class="asu-dept-tree" data-delta=""></div>';
+  return '<div class="asu-dept-tree"></div>';
 }
 
 

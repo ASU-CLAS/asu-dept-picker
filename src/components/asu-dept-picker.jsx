@@ -38,6 +38,7 @@ module.exports = React.createClass({
     var deptTree = <DeptTree 
       ref="deptTree"
       treeData={this.props.tree_json_data}
+      showOnly={this.props.showOnly || []}
       onTreeSelect={this.handleDeptTreeSelect}
     />
 
@@ -110,6 +111,10 @@ module.exports = React.createClass({
     var depts = [];
 
     config.items.map(function(item, index){
+      if (!item.tid) {
+        node = deptTree.findRootDept(item.dept_nid);
+        item.tid = node.tid;
+      }
       depts.push({
         id: item.dept_id,
         title: deptTree.getDeptPath(item.tid),

@@ -1,4 +1,5 @@
 var $ = jQuery;
+var _ = require('lodash');
 
 /**
  * Department Tree Component
@@ -25,6 +26,12 @@ module.exports = React.createClass({
     };
     var options = $.extend(defaults, this.props);
 
+    var show_depts = _.flatten(options.showOnly.map(function(dept_nid){
+      return this.getDeptPathIds(dept_nid);
+    }.bind(this)));
+
+    options.showOnly = _.uniq(show_depts);
+
     $(el).tree({
       data: tree_data,
       closedIcon: $('<span class="fa fa-plus-circle"></span>'),
@@ -38,7 +45,7 @@ module.exports = React.createClass({
       onCreateLi: function (node, $li) {
         $li.attr('dept_nid', node.dept_nid);
         $li.attr('dept_id', node.dept_id);
-
+        
         if (options.showOnly && Array.isArray(options.showOnly) && options.showOnly.length) {
           $(el).addClass('trimmed');
 
@@ -73,6 +80,28 @@ module.exports = React.createClass({
     this.props.onTreeSelect(event);
   },
 
+  getDeptPathIds: function(dept_id, id_type, path, reverse) {
+    switch (arguments.length) {
+      case 1: id_type = 'dept_nid';
+      case 2: path = [];
+      case 3: reverse = true;
+    }
+
+    if (item = this.findRootDept(dept_id, id_type)) {
+      path.push(item.dept_nid);
+
+      if (item.parents.length) {
+        path = this.getDeptPathIds(item.parents[0], 'tid', path, false);
+      }
+    }
+
+    if (reverse) {
+      path = path.reverse();
+    }
+
+    return path;
+  },
+
   getDeptPath: function(dept_tid, path, reverse) {
     switch (arguments.length) {
       case 1: path = [];
@@ -80,7 +109,6 @@ module.exports = React.createClass({
     }
 
     if (item = this.findRootDept(dept_tid, 'tid')) {
-
       var className = ['fragment'];
 
       if (item.parents[0] == '0') {
@@ -128,10 +156,6 @@ module.exports = React.createClass({
       case 2:
         data = this.state.treeData;
         break;
-    }
-
-    if (arguments.length == 1) {
-      id_type = 'dept_nid';
     }
 
     for (var i = 0; i < data.length; i++) {
