@@ -24,11 +24,22 @@ function asu_dept_picker_theme() {
  * Loads required libraries
  */
 function _asu_dept_picker_load_libraries() {
-  libraries_load('react', 'source');
+  static $_loaded = null;
 
-  // jqTree (http://mbraak.github.com/jqTree)
-  libraries_load('jqtree');
-  libraries_load('fontawesome');
+  if (is_null($_loaded)) {
+    libraries_load('react', module_exists('devel') ? 'source' : null);
+
+    // jqTree (http://mbraak.github.com/jqTree)
+    libraries_load('jqtree');
+    libraries_load('fontawesome');
+
+    // Load javascript and css
+    drupal_add_js(drupal_get_path('module', 'asu_dept_picker') . '/asu_dept_picker.react.js');
+    drupal_add_js(drupal_get_path('module', 'asu_dept_picker') . '/asu_dept_picker.js');
+    drupal_add_css(drupal_get_path('module', 'asu_dept_picker') . '/asu_dept_picker.css');
+
+    $_loaded = TRUE;
+  }
 }
 
 /**
@@ -38,15 +49,15 @@ function theme_asu_dept_picker(&$vars) {
   // Load necessary libraries
   _asu_dept_picker_load_libraries();
 
-  // Load javascript and css
-  drupal_add_js(drupal_get_path('module', 'asu_dept_picker') . '/asu_dept_picker.react.js');
-  drupal_add_js(drupal_get_path('module', 'asu_dept_picker') . '/asu_dept_picker.js');
-  drupal_add_css(drupal_get_path('module', 'asu_dept_picker') . '/asu_dept_picker.css');
-
   // keep a static settings var so we can reference the instance settings in our js
   $settings = &drupal_static(__FUNCTION__, array());
+
   // keep track of the current instance index
-  $index = count($settings);
+  $index = '__' . count($settings);
+
+  if (isset($element['#delta'])) {
+    $index = $element['#delta'];
+  }
 
   // access the form element's info
   $element = $vars['element'];
