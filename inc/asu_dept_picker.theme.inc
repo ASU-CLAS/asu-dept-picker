@@ -49,6 +49,9 @@ function theme_asu_dept_picker(&$vars) {
   // Load necessary libraries
   _asu_dept_picker_load_libraries();
 
+  // access the form element's info
+  $element = $vars['element'];
+
   // keep a static settings var so we can reference the instance settings in our js
   $settings = &drupal_static(__FUNCTION__, array());
 
@@ -58,9 +61,6 @@ function theme_asu_dept_picker(&$vars) {
   if (isset($element['#delta'])) {
     $index = $element['#delta'];
   }
-
-  // access the form element's info
-  $element = $vars['element'];
 
   // see if we're passing any tree options at all
   if (!isset($element['#asu_dept_tree'])) {
