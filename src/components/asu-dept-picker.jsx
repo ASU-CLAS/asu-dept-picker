@@ -108,18 +108,17 @@ module.exports = React.createClass({
   setSelectedDepartments: function() {
     var deptTree = this.refs.deptTree;
     var config = this.state.config;
-    var depts = [];
 
-    config.items.map(function(item, index){
+    var depts = config.items.map(function(item, index){
       if (!item.tid) {
         node = deptTree.findRootDept(item.dept_nid);
         item.tid = node.tid;
       }
-      depts.push({
+      return {
         id: item.dept_id,
         title: deptTree.getDeptPath(item.tid),
-        subdepts: config.options[item.dept_id].subdepts
-      });
+        subdepts: (config.options[item.dept_id]) ? config.options[item.dept_id].subdepts : false
+      };
     });
 
     this.setState({ selectedDepartments: depts });
